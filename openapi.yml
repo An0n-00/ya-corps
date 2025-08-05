@@ -1,0 +1,357 @@
+openapi: 3.0.3
+info:
+  title: ya-corps
+  description: |
+    **Y**et **A**nother **COR**(S) **P**roxy **S**erver
+    
+    Hey Matey! Welcome to **ya-corps**, a simple CORS proxy server built with Node.js and Express. 
+    This project allows you to bypass CORS restrictions by proxying requests through a server, 
+    making it easier to access APIs and resources that have CORS policies in place.
+    
+    ## Features
+    - **CORS Proxy**: Bypass CORS restrictions by proxying requests through the server
+    - **Multiple HTTP Methods**: Support for GET, POST, PUT, DELETE, and other HTTP methods
+    - **Header Forwarding**: Forward custom headers with your requests
+    - **Request Body Support**: Send request bodies for POST/PUT operations
+    - **Error Handling**: Comprehensive error handling and reporting
+    - **Simple API**: Easy-to-use REST API interface
+  version: 1.0.0
+  contact:
+    name: An0n-00
+    url: https://github.com/An0n-00
+  license:
+    name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+
+tags:
+  - name: proxy
+    description: CORS proxy operations
+  - name: info
+    description: API information and health checks
+
+paths:
+  /:
+    get:
+      tags:
+        - info
+      summary: Get API information
+      description: |
+        Returns API information, available endpoints, and usage examples.
+        This endpoint provides a pirate-themed welcome message along with 
+        comprehensive documentation about how to use the CORS proxy.
+      operationId: getApiInfo
+      responses:
+        '200':
+          description: API information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiInfoResponse'
+              example:
+                message: "Ahoy there, ye scallywag! Ye've found the Ya-Corps API, the finest vessel on these digital seas. If ye be lookin' to send yer messages across the briny deep, chart a course to /request and let the adventure begin!"
+                success: true
+                endpoints:
+                  "/request":
+                    method: "POST"
+                    description: "Send a CORS-enabled proxy request to any port on the web — no landlubber restrictions here!"
+                    body:
+                      url: "string (required) - The destination URL, where ye wish to send yer message in a bottle"
+                      method: "string (optional) - The HTTP method (GET, POST, PUT, DELETE, etc.) — defaults to GET if ye don't specify"
+                      headers: "object (optional) - Any extra orders (headers) ye want to send with yer request"
+                      body: "any (optional) - The cargo (body) for POST/PUT requests, if ye be needin' it"
+
+  /request:
+    post:
+      tags:
+        - proxy
+      summary: Proxy a request through CORS
+      description: |
+        Send a request to any URL through the CORS proxy server. This endpoint allows you to:
+        - Bypass CORS restrictions
+        - Forward custom headers
+        - Send request bodies for POST/PUT operations
+        - Use any HTTP method
+        
+        The response will include proper CORS headers and forward the target server's response.
+      operationId: proxyRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProxyRequest'
+            examples:
+              simple_get:
+                summary: Simple GET request
+                value:
+                  url: "https://api.example.com/data"
+              get_with_headers:
+                summary: GET request with custom headers
+                value:
+                  url: "https://api.example.com/protected"
+                  method: "GET"
+                  headers:
+                    Authorization: "Bearer your-token"
+                    Accept: "application/json"
+              post_with_body:
+                summary: POST request with JSON body
+                value:
+                  url: "https://api.example.com/users"
+                  method: "POST"
+                  headers:
+                    Authorization: "Bearer your-token"
+                    Content-Type: "application/json"
+                  body:
+                    name: "John Doe"
+                    email: "john@example.com"
+              put_request:
+                summary: PUT request to update resource
+                value:
+                  url: "https://api.example.com/users/123"
+                  method: "PUT"
+                  headers:
+                    Authorization: "Bearer your-token"
+                    Content-Type: "application/json"
+                  body:
+                    name: "Jane Doe"
+                    email: "jane@example.com"
+              delete_request:
+                summary: DELETE request
+                value:
+                  url: "https://api.example.com/users/123"
+                  method: "DELETE"
+                  headers:
+                    Authorization: "Bearer your-token"
+      responses:
+        '200':
+          description: Request proxied successfully
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+              description: CORS header allowing all origins
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: "GET, POST, PUT, DELETE, OPTIONS"
+              description: CORS header specifying allowed methods
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: "*"
+              description: CORS header allowing all headers
+          content:
+            '*/*':
+              schema:
+                description: The response from the target URL
+                example: |
+                  The actual response will depend on the target URL and will be 
+                  returned with the same content type and structure as the original response.
+        '400':
+          description: Bad request - invalid URL or missing required parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missing_url:
+                  summary: Missing URL parameter
+                  value:
+                    error: "URL is required"
+                    success: false
+                invalid_url:
+                  summary: Invalid URL format
+                  value:
+                    error: "Invalid URL provided"
+                    success: false
+        '500':
+          description: Internal server error or proxy request failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                proxy_error:
+                  summary: Proxy request failed
+                  value:
+                    error: "Failed to complete request"
+                    success: false
+                    details: "Connection timeout"
+                server_error:
+                  summary: Internal server error
+                  value:
+                    error: "Internal server error"
+                    success: false
+                    details: "Unexpected error occurred"
+    options:
+      tags:
+        - proxy
+      summary: Handle preflight CORS request
+      description: |
+        Handles preflight OPTIONS requests for CORS. This is automatically called by browsers
+        before making cross-origin requests to check if the actual request is allowed.
+      operationId: handlePreflight
+      responses:
+        '204':
+          description: Preflight request handled successfully
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+              description: CORS header allowing all origins
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: "GET, POST, PUT, DELETE, OPTIONS"
+              description: CORS header specifying allowed methods
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: "*"
+              description: CORS header allowing all headers
+            Access-Control-Max-Age:
+              schema:
+                type: string
+                example: "86400"
+              description: CORS header specifying cache duration for preflight
+
+  /{any}:
+    get:
+      tags:
+        - info
+      summary: Catch-all route for undefined endpoints
+      description: |
+        Returns a 404 error with a pirate-themed message for any undefined routes.
+        This helps users understand they've accessed an invalid endpoint.
+      operationId: catchAll
+      parameters:
+        - name: any
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Any undefined path
+      responses:
+        '404':
+          description: Endpoint not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "You be sailin' in uncharted waters, matey!"
+                success: false
+
+components:
+  schemas:
+    ProxyRequest:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          description: The target URL to proxy the request to
+          example: "https://api.example.com/data"
+        method:
+          type: string
+          enum: [GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS]
+          default: GET
+          description: HTTP method to use for the request
+          example: "GET"
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom headers to forward with the request
+          example:
+            Authorization: "Bearer your-token"
+            Content-Type: "application/json"
+            Accept: "application/json"
+        body:
+          oneOf:
+            - type: object
+            - type: string
+            - type: array
+          description: Request body for POST/PUT/PATCH requests (will be JSON stringified if object)
+          example:
+            name: "John Doe"
+            email: "john@example.com"
+
+    ApiInfoResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Pirate-themed welcome message
+          example: "Ahoy there, ye scallywag! Ye've found the Ya-Corps API, the finest vessel on these digital seas."
+        success:
+          type: boolean
+          example: true
+        endpoints:
+          type: object
+          properties:
+            "/request":
+              type: object
+              properties:
+                method:
+                  type: string
+                  example: "POST"
+                description:
+                  type: string
+                  example: "Send a CORS-enabled proxy request to any port on the web — no landlubber restrictions here!"
+                body:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                      example: "string (required) - The destination URL, where ye wish to send yer message in a bottle"
+                    method:
+                      type: string
+                      example: "string (optional) - The HTTP method (GET, POST, PUT, DELETE, etc.) — defaults to GET if ye don't specify"
+                    headers:
+                      type: string
+                      example: "object (optional) - Any extra orders (headers) ye want to send with yer request"
+                    body:
+                      type: string
+                      example: "any (optional) - The cargo (body) for POST/PUT requests, if ye be needin' it"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message describing what went wrong
+          example: "URL is required"
+        success:
+          type: boolean
+          example: false
+        details:
+          type: string
+          description: Additional error details (optional)
+          example: "Connection timeout"
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Bearer token authentication. Note: This is for the target API that you're proxying to,
+        not for the ya-corps proxy server itself. Include the Authorization header in the
+        `headers` object of your proxy request.
+
+# Global security is empty since the proxy itself doesn't require authentication
+# Authentication is handled by forwarding headers to the target API
+security: []
+
+externalDocs:
+  description: Find more info on GitHub
+  url: https://github.com/An0n-00/ya-corps
