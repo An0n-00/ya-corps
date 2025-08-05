@@ -20,7 +20,8 @@
   "main": "index.js",
   "scripts": {
     "main": "node index.js",
-    "test": "node test.js"
+    "test": "node test.js",
+    "build": "npx eslint index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

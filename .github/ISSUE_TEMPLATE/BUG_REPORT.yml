@@ -1,0 +1,113 @@
+name: Bug Report
+description: Report a bug or issue with the ya-corps CORS proxy server
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hey matey! 🏴‍☠️ Thanks for reporting a bug to help make ya-corps better!
+        
+        Please fill out this template to help us understand and fix the issue you're experiencing.
+        
+        > [!TIP]
+        > Before reporting, please check if your issue is already reported in the [existing issues](https://github.com/An0n-00/ya-corps/issues).
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      description: |
+        **Please check these before submitting:**
+      options:
+        - label: I have checked the existing issues and this is not a duplicate
+          required: true
+        - label: I have read the [README.md](https://github.com/An0n-00/ya-corps/blob/main/README.md) and followed the installation instructions
+          required: true
+        - label: I am using the latest version of ya-corps
+          required: true
+        - label: I have tested this with a minimal setup (no additional middleware or modifications)
+          required: true
+          
+  - type: textarea
+    attributes:
+      label: Environment
+      description: |
+        Tell us about your environment where the bug occurs.
+      placeholder: |
+        - Operating System: (e.g., Windows 11, macOS 14, Ubuntu 22.04)
+        - Node.js version: (run `node --version`)
+        - ya-corps version: (from package.json)
+        - Browser (if applicable): (e.g., Chrome 120, Firefox 121)
+      render: yaml
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Describe what you expected to happen...
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual Behavior
+      description: What actually happened? Include any error messages.
+      placeholder: |
+        Describe what actually happened...
+        
+        If there are error messages, include them here:
+        ```
+        Error message here
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: Provide step-by-step instructions to reproduce the bug.
+      placeholder: |
+        1. Start the server with `npm run main`
+        2. Send a request to `POST /request` with body: {...}
+        3. Observe the error...
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Request Details
+      description: |
+        If this is related to a specific proxy request, provide the request details.
+        **Remove any sensitive information like API keys or tokens!**
+      placeholder: |
+        **Target URL:** https://api.example.com/endpoint
+        **HTTP Method:** POST
+        **Headers:** 
+        ```json
+        {
+          "Content-Type": "application/json"
+        }
+        ```
+        **Request Body:**
+        ```json
+        {
+          "url": "https://api.example.com/data",
+          "method": "GET"
+        }
+        ```
+      render: markdown
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Server Logs
+      description: |
+        Include relevant server logs or console output.
+        **Remove any sensitive information!**
+      placeholder: |
+        ```
+        Paste server logs here...
+        ```
+      render: markdown
+    validations:
+      required: false

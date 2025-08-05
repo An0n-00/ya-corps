@@ -1,0 +1,132 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for ya-corps CORS proxy server
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ahoy there, ye have an idea to make ya-corps even better! 🏴‍☠️
+        
+        We'd love to hear your suggestions for new features or improvements to the CORS proxy server.
+        
+        > [!TIP]
+        > Before suggesting a feature, please check the [existing issues](https://github.com/An0n-00/ya-corps/issues) to see if someone else has already requested something similar.
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      description: |
+        **Please check these before submitting:**
+      options:
+        - label: I have checked the existing issues and this feature hasn't been requested before
+          required: true
+        - label: I have read the [README.md](https://github.com/An0n-00/ya-corps/blob/main/README.md) and [OpenAPI specification](https://github.com/An0n-00/ya-corps/blob/main/openapi.yml)
+          required: true
+        - label: This feature request is related to ya-corps CORS proxy functionality
+          required: true
+          
+  - type: textarea
+    attributes:
+      label: Feature Description
+      description: |
+        Provide a clear and detailed description of the feature you'd like to see.
+      placeholder: |
+        Describe the feature you want to add to ya-corps...
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Problem/Use Case
+      description: |
+        What problem does this feature solve? What's your use case?
+      placeholder: |
+        Explain the problem this feature would solve or the use case it would enable...
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Feature Category
+      description: What type of feature is this?
+      options:
+        - CORS handling improvement
+        - New HTTP method support
+        - Performance enhancement
+        - Security feature
+        - API endpoint addition
+        - Configuration option
+        - Logging/debugging
+        - Error handling
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Proposed Implementation
+      description: |
+        Do you have any ideas on how this could be implemented? (Optional)
+      placeholder: |
+        If you have thoughts on how this could be implemented, share them here...
+        
+        ```javascript
+        // Example code if applicable
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: API Changes
+      description: |
+        Would this feature require changes to the API? If so, describe them.
+      placeholder: |
+        **New endpoints:**
+        - `GET /new-endpoint` - Description
+        
+        **Changes to existing endpoints:**
+        - `POST /request` - New optional parameter `newParam`
+        
+        **Breaking changes:**
+        - None / List any breaking changes
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Examples
+      description: |
+        Provide examples of how this feature would be used.
+      placeholder: |
+        **Example usage:**
+        ```javascript
+        fetch('http://localhost:3000/request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                url: 'https://api.example.com/data',
+                // new feature usage here
+            })
+        })
+        ```
+        
+        **Expected response:**
+        ```json
+        {
+            // example response
+        }
+        ```
+    validations:
+      required: false
+
+  - type: checkboxes
+    attributes:
+      label: Additional Context
+      description: Is there anything else you'd like to add?
+      options:
+        - label: I would be willing to help implement this feature
+          required: false
+        - label: This is a breaking change
+          required: false
+        - label: This feature requires documentation updates
+          required: false
