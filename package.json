@@ -26,6 +26,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
+    "eslint": "^9.32.0",
     "express": "^4.21.2",
     "node-fetch": "^2.7.0"
   }
