@@ -169,8 +169,8 @@ paths:
                   value:
                     error: "Invalid URL provided"
                     success: false
-        '500':
-          description: Internal server error or proxy request failed
+        '999':
+          description: Internal server error or proxy request failed. This is a custom status code used to indicate that the request could not be processed due to an error and is not a standard HTTP status code to avoid confusion with errors from the target API.
           content:
             application/json:
               schema:
