@@ -117,7 +117,7 @@ app.post('/request', async (req, res) => {
         proxyReq.on('error', error => {
             console.error('Proxy request error:', error);
             if (!res.headersSent) {
-                res.status(500).json({
+                res.status(999).json({
                     error: 'Failed to complete request',
                     success: false,
                     details: error.message,
@@ -143,8 +143,8 @@ app.post('/request', async (req, res) => {
         proxyReq.end();
     } catch (error) {
         console.error('Request processing error:', error);
-        res.status(500).json({
-            error: 'Internal server error',
+        res.status(999).json({
+            error: 'Network Connect Timeout Error',
             success: false,
             details: error.message,
         });

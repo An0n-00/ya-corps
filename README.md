@@ -106,8 +106,10 @@ Proxy a request to the specified URL.
 **Response:**
 The response from the target URL with CORS headers added.
 
-
 Returns API information and usage examples.
+
+> [!IMPORTANT]
+> If there is any error in the request, the server will return a **999** status code. This is a custom status code used to indicate that the request could not be processed due to an error. The response will include an `error` field and a `details` field with details about the issue. This is to avoid confusion with standard HTTP status codes and to provide a clear indication of errors specific to this proxy server and not the target API.
 
 ## 🔧 Configuration
 
