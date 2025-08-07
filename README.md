@@ -117,7 +117,7 @@ Configure the server using environment variables in your `.env` file:
 
 ## 📝 License
 
-<a href="https://github.com/An0n-00/ya-corps">ya-corps</a> © 2025 by <a href="https://github.com/An0n-00">An0n-00</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+<a href="https://github.com/An0n-00/ya-corps">ya-corps</a> © 2025 by <a href="https://github.com/An0n-00">An0n-00</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons" style="height: 20px" ><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Attribution" style="height: 20px"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="Non-Commercial" style="height: 20px"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="Share Alike" style="height: 20px">
 
 See full license in [LICENSE](./LICENSE).
 
