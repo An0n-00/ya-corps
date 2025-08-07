@@ -144,7 +144,7 @@ app.post('/request', async (req, res) => {
     } catch (error) {
         console.error('Request processing error:', error);
         res.status(999).json({
-            error: 'Network Connect Timeout Error',
+            error: 'Proxy Error: Whoops. Something went wrong while processing yer request! Are you sure the URL is correct? or that the site has a port we can sale to?',
             success: false,
             details: error.message,
         });
