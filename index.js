@@ -6,9 +6,9 @@ const http = require('http');
 const { URL } = require('url');
 const app = express();
 const PORT =
-    process.env.PORT ||
+    process.env.YA_CORPS_PORT ||
     (() => {
-        throw new Error('PORT is not defined in .env file');
+        throw new Error('YA_CORPS_PORT is not defined in .env file');
     })();
 
 app.use(express.json());
