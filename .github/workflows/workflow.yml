@@ -1,5 +1,4 @@
 name: Workflow for ya-corps CORS Proxy Server
-description: This workflow builds and tests the ya-corps CORS proxy server application.
 
 on:
   push:
@@ -13,6 +12,8 @@ permissions:
 
 jobs:
   build:
+    env:
+      YA_CORPS_PORT: 3000
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -28,3 +29,6 @@ jobs:
 
     - name: Run ESLint build check
       run: npm run build
+
+    - name: Run tests
+      run: npm run test

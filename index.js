@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
         success: true,
         endpoints: {
             '/request': {
-                method: 'POST',
+                method: 'POST & GET',
                 description:
                     'Send a CORS-enabled proxy request to any port on the web — no landlubber restrictions here!',
                 body: {
@@ -42,17 +42,42 @@ app.get('/', (req, res) => {
                         'object (optional) - Any extra orders (headers) ye want to send with yer request',
                     body: 'any (optional) - The cargo (body) for POST/PUT requests, if ye be needin\' it',
                 },
+                get_params: {
+                    url: 'string (required) - The destination URL',
+                    method: 'string (optional) - HTTP method, defaults to GET',
+                    headers: 'stringified JSON (optional) - Any extra orders (headers)',
+                    body: 'string (optional) - Body for POST/PUT requests, if needed',
+                },
             },
         },
     });
 });
 
-app.post('/request', async (req, res) => {
+/**
+ * Proxy endpoint supporting both POST and GET to /request.
+ * - POST: Accepts url, method, headers, body in req.body.
+ * - GET: Accepts url, method, headers, body all via URL params.
+ */
+const handleProxyRequest = async (req, res) => {
     try {
-        const { url, method = 'GET', headers = {}, body } = req.body;
+        let url, method, headers, body;
+        if (req.method === 'GET') {
+            // All info via query params for GET /request
+            url = req.query.url;
+            method = req.query.method || 'GET';
+            try {
+                headers = req.query.headers ? JSON.parse(req.query.headers) : {};
+            } catch {
+                headers = {};
+            }
+            body = req.query.body ? req.query.body : undefined;
+        } else {
+            // POST, standard JSON input
+            ({ url, method = 'GET', headers = {}, body } = req.body);
+        }
 
         if (!url) {
-            return res.status(400).json({
+            return res.status(999).json({
                 error: 'URL is required',
                 success: false,
             });
@@ -62,21 +87,18 @@ app.post('/request', async (req, res) => {
         let targetUrl;
         try {
             targetUrl = new URL(url);
-        } catch (error) {
-            return res.status(400).json({
+        } catch {
+            return res.status(999).json({
                 error: 'Invalid URL provided',
                 success: false,
             });
         }
 
-        // Choose the appropriate module based on protocol
         const requestModule = targetUrl.protocol === 'https:' ? https : http;
 
-        // Prepare request options
         const options = {
             hostname: targetUrl.hostname,
-            port:
-                targetUrl.port || (targetUrl.protocol === 'https:' ? 443 : 80),
+            port: targetUrl.port || (targetUrl.protocol === 'https:' ? 443 : 80),
             path: targetUrl.pathname + targetUrl.search,
             method: method.toUpperCase(),
             headers: {
@@ -90,8 +112,7 @@ app.post('/request', async (req, res) => {
             // Set CORS headers
             res.set({
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods':
-                    'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
                 'Access-Control-Allow-Headers': '*',
             });
 
@@ -125,12 +146,12 @@ app.post('/request', async (req, res) => {
             }
         });
 
-        // Send body if present (for POST, PUT, etc.)
+        // Send body if present (for POST, PUT, PATCH, etc.)
         if (
             body &&
-            (method.toUpperCase() === 'POST' ||
-                method.toUpperCase() === 'PUT' ||
-                method.toUpperCase() === 'PATCH')
+            (options.method === 'POST' ||
+                options.method === 'PUT' ||
+                options.method === 'PATCH')
         ) {
             if (typeof body === 'object') {
                 proxyReq.write(JSON.stringify(body));
@@ -149,7 +170,11 @@ app.post('/request', async (req, res) => {
             details: error.message,
         });
     }
-});
+};
+
+// Support POST and GET to /request
+app.post('/request', handleProxyRequest);
+app.get('/request', handleProxyRequest);
 
 app.get('*', (req, res) => {
     res.status(404).send({
@@ -158,8 +183,12 @@ app.get('*', (req, res) => {
     });
 });
 
-app.listen(PORT, () =>
-    console.log(
-        `Arrr! The Ya-Corps API be sailin' at http://localhost:${PORT} — ready fer adventure! 🏴‍☠️`
-    )
-);
+if (require.main === module) {
+    app.listen(PORT, () =>
+        console.log(
+            `Arrr! The Ya-Corps API be sailin' at http://localhost:${PORT} — ready fer adventure! 🏴‍☠️`
+        )
+    );
+}
+
+module.exports = app;
