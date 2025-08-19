@@ -13,6 +13,8 @@ permissions:
 
 jobs:
   build:
+    env:
+      YA_CORPS_PORT: 3000
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
