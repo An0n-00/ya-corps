@@ -1,5 +1,4 @@
 name: Workflow for ya-corps CORS Proxy Server
-description: This workflow builds and tests the ya-corps CORS proxy server application.
 
 on:
   push:
