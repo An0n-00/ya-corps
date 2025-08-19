@@ -20,7 +20,7 @@
   "main": "index.js",
   "scripts": {
     "main": "node index.js",
-    "test": "node test.js",
+    "test": "jest --detectOpenHandles",
     "build": "npx eslint index.js"
   },
   "dependencies": {
@@ -28,6 +28,8 @@
     "dotenv": "^17.2.1",
     "eslint": "^9.32.0",
     "express": "^4.21.2",
-    "node-fetch": "^2.7.0"
+    "jest": "^30.0.5",
+    "node-fetch": "^2.7.0",
+    "supertest": "^7.1.4"
   }
 }
