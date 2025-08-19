@@ -1,6 +1,6 @@
 {
   "name": "ya-corps",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Ya Cor(s)ps stands for \"Yet Another CORS Proxy Server\", which it ultimately is.",
   "keywords": [
     "cors",
