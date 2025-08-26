@@ -1,34 +1,34 @@
 name: Workflow for ya-corps CORS Proxy Server
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    workflow_dispatch:
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  build:
-    env:
-      YA_CORPS_PORT: 3000
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    build:
+        env:
+            YA_CORPS_PORT: 3000
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '22'
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '22'
 
-    - name: Install dependencies
-      run: npm install 
+            - name: Install dependencies
+              run: npm install
 
-    - name: Run ESLint build check
-      run: npm run build
+            - name: Run ESLint build check
+              run: npm run build
 
-    - name: Run tests
-      run: npm run test
+            - name: Run tests
+              run: npm run test

@@ -21,26 +21,29 @@ To be blunt with you mate, I dislike long readme files, so I tried to keep it sh
 - **Error Handling**: Comprehensive error handling and reporting
 - **Simple API**: Easy-to-use REST API interface. Like reallllyyy easy
 
-
 <details><summary><h2>📦 Installation</h2></summary>
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/An0n-00/ya-corps.git
 cd ya-corps
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create a `.env` file based on `.env.example`:
+
 ```bash
 mv .env.example .env
 ```
 
 4. Start the server:
+
 ```bash
 npm run main
 ```
@@ -61,10 +64,10 @@ Send an HTTP request anywhere!
 
 ```json
 {
-  "url": "https://targetsite.com/api",
-  "method": "POST",
-  "headers": { "Authorization": "Bearer token" },
-  "body": { "foo": "bar" }
+    "url": "https://targetsite.com/api",
+    "method": "POST",
+    "headers": { "Authorization": "Bearer token" },
+    "body": { "foo": "bar" }
 }
 ```
 

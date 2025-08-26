@@ -28,7 +28,7 @@ app.options('*', (req, res) => {
 app.get('/', (req, res) => {
     res.send({
         message:
-            'Ahoy there, ye scallywag! Ye\'ve found the Ya-Corps API, the finest vessel on these digital seas. If ye be lookin\' to send yer messages across the briny deep, chart a course to /request and let the adventure begin!',
+            "Ahoy there, ye scallywag! Ye've found the Ya-Corps API, the finest vessel on these digital seas. If ye be lookin' to send yer messages across the briny deep, chart a course to /request and let the adventure begin!",
         success: true,
         endpoints: {
             '/request': {
@@ -37,15 +37,16 @@ app.get('/', (req, res) => {
                     'Send a CORS-enabled proxy request to any port on the web — no landlubber restrictions here!',
                 body: {
                     url: 'string (required) - The destination URL, where ye wish to send yer message in a bottle',
-                    method: 'string (optional) - The HTTP method (GET, POST, PUT, DELETE, etc.) — defaults to GET if ye don\'t specify',
+                    method: "string (optional) - The HTTP method (GET, POST, PUT, DELETE, etc.) — defaults to GET if ye don't specify",
                     headers:
                         'object (optional) - Any extra orders (headers) ye want to send with yer request',
-                    body: 'any (optional) - The cargo (body) for POST/PUT requests, if ye be needin\' it',
+                    body: "any (optional) - The cargo (body) for POST/PUT requests, if ye be needin' it",
                 },
                 get_params: {
                     url: 'string (required) - The destination URL',
                     method: 'string (optional) - HTTP method, defaults to GET',
-                    headers: 'stringified JSON (optional) - Any extra orders (headers)',
+                    headers:
+                        'stringified JSON (optional) - Any extra orders (headers)',
                     body: 'string (optional) - Body for POST/PUT requests, if needed',
                 },
             },
@@ -66,7 +67,9 @@ const handleProxyRequest = async (req, res) => {
             url = req.query.url;
             method = req.query.method || 'GET';
             try {
-                headers = req.query.headers ? JSON.parse(req.query.headers) : {};
+                headers = req.query.headers
+                    ? JSON.parse(req.query.headers)
+                    : {};
             } catch {
                 headers = {};
             }
@@ -98,7 +101,8 @@ const handleProxyRequest = async (req, res) => {
 
         const options = {
             hostname: targetUrl.hostname,
-            port: targetUrl.port || (targetUrl.protocol === 'https:' ? 443 : 80),
+            port:
+                targetUrl.port || (targetUrl.protocol === 'https:' ? 443 : 80),
             path: targetUrl.pathname + targetUrl.search,
             method: method.toUpperCase(),
             headers: {
@@ -112,7 +116,8 @@ const handleProxyRequest = async (req, res) => {
             // Set CORS headers
             res.set({
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Methods':
+                    'GET, POST, PUT, DELETE, OPTIONS',
                 'Access-Control-Allow-Headers': '*',
             });
 
@@ -178,7 +183,7 @@ app.get('/request', handleProxyRequest);
 
 app.get('*', (req, res) => {
     res.status(404).send({
-        error: 'You be sailin\' in uncharted waters, matey!',
+        error: "You be sailin' in uncharted waters, matey!",
         success: false,
     });
 });

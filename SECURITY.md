@@ -4,9 +4,9 @@
 
 The following versions are supported:
 
-| Version   | Supported          |
-| --------- | ------------------ |
-| < 1.0.0   | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| < 1.0.0 | :x:       |
 
 ## Reporting a Vulnerability
 
