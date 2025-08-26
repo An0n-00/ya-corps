@@ -23,6 +23,16 @@ To be blunt with you mate, I dislike long readme files, so I tried to keep it sh
 
 <details><summary><h2>📦 Installation</h2></summary>
 
+### Automated:
+
+This is a script to automate the installation. To check the powershell contents, look at [this](./installer.ps1) file. (It has comments everywhere. should be easy to understand)
+
+```powershell
+iex "& { $(iwr -useb 'https://raw.githubusercontent.com/An0n-00/ya-corps/refs/heads/main/installer.ps1') }"
+```
+
+### Manual:
+
 1. Clone the repository:
 
 ```bash
@@ -39,7 +49,7 @@ npm install
 3. Create a `.env` file based on `.env.example`:
 
 ```bash
-mv .env.example .env
+cp .env.example .env
 ```
 
 4. Start the server:
