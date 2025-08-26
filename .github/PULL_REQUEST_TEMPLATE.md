@@ -1,4 +1,4 @@
-<!-- 
+<!--
 Thanks for contributing to ya-corps! 🏴‍☠️
 Please fill out this template to help us review your changes.
 -->
@@ -8,6 +8,7 @@ Please fill out this template to help us review your changes.
 <!-- Provide a clear and concise description of your changes -->
 
 **What does this PR do?**
+
 - [ ] Bug fix (non-breaking change that fixes an issue)
 - [ ] New feature (non-breaking change that adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
@@ -17,11 +18,13 @@ Please fill out this template to help us review your changes.
 - [ ] Security enhancement
 
 **Summary:**
+
 <!-- Briefly describe what this PR accomplishes -->
 
 ## 🔗 Related Issues
 
 <!-- Link any related issues here -->
+
 Fixes #(issue_number)
 Closes #(issue_number)
 Related to #(issue_number)
@@ -29,18 +32,22 @@ Related to #(issue_number)
 ## 🧪 Testing
 
 **How has this been tested?**
+
 - [ ] Unit tests
 - [ ] Integration tests
 - [ ] Manual testing
 - [ ] Tested with various CORS scenarios
 
 **Test Configuration:**
+
 - Node.js version:
 - Operating System:
 - Browser(s) tested:
 
 **Test Cases:**
+
 <!-- Describe the test cases you ran -->
+
 ```javascript
 // Example test case or manual test steps
 fetch('http://localhost:3000/request', {
@@ -48,21 +55,24 @@ fetch('http://localhost:3000/request', {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
         url: 'https://api.example.com/test',
-        method: 'GET'
-    })
-})
+        method: 'GET',
+    }),
+});
 ```
 
 ## 📝 Changes
 
 **API Changes:**
+
 - [ ] No API changes
 - [ ] New endpoint added
 - [ ] Existing endpoint modified
 - [ ] Breaking changes to API
 
 **Files Changed:**
+
 <!-- List the main files that were changed -->
+
 - `index.js` - Brief description of changes
 - `README.md` - Updated documentation
 - `openapi.yml` - Updated API specification
@@ -89,9 +99,11 @@ fetch('http://localhost:3000/request', {
 <!-- If this is a breaking change, describe the impact and migration path -->
 
 **What breaks:**
+
 <!-- Describe what existing functionality might break -->
 
 **Migration guide:**
+
 <!-- Provide steps for users to migrate to the new version -->
 
 ## 📸 Screenshots/Examples
@@ -99,11 +111,13 @@ fetch('http://localhost:3000/request', {
 <!-- If applicable, add screenshots or examples of the changes -->
 
 **Before:**
+
 ```javascript
 // Old behavior/API
 ```
 
 **After:**
+
 ```javascript
 // New behavior/API
 ```
@@ -120,4 +134,5 @@ fetch('http://localhost:3000/request', {
 ---
 
 **Additional Notes:**
+
 <!-- Add any other context about the PR here -->

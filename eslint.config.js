@@ -18,14 +18,14 @@ module.exports = [
                 global: 'readonly',
                 require: 'readonly',
                 module: 'readonly',
-                exports: 'readonly'
-            }
+                exports: 'readonly',
+            },
         },
         rules: {
             'no-unused-vars': 'warn',
             'no-console': 'off',
-            'semi': ['error', 'always'],
-            'quotes': ['error', 'single'],
+            semi: ['error', 'always'],
+            quotes: ['error', 'single'],
         },
     },
 ];

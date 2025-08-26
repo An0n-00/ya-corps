@@ -1,182 +1,182 @@
 openapi: 3.0.3
 info:
-  title: ya-corps
-  description: |
-    **Y**et **A**nother **COR**(S) **P**roxy **S**erver
-    
-    Hey Matey! Welcome to **ya-corps**, a simple CORS proxy server built with Node.js and Express. 
-    This project allows you to bypass CORS restrictions by proxying requests through a server, 
-    making it easier to access APIs and resources that have CORS policies in place.
-    
-    ## Features
-    - **CORS Proxy**: Bypass CORS restrictions by proxying requests through the server
-    - **Multiple HTTP Methods**: Support for GET, POST, PUT, DELETE, and other HTTP methods
-    - **Header Forwarding**: Forward custom headers with your requests
-    - **Request Body Support**: Send request bodies for POST/PUT operations
-    - **Error Handling**: Comprehensive error handling and reporting
-    - **Simple API**: Easy-to-use REST API interface
-  version: 1.0.0
-  contact:
-    name: An0n-00
-    url: https://github.com/An0n-00
-  license:
-    name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
-    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+    title: ya-corps
+    description: |
+        **Y**et **A**nother **COR**(S) **P**roxy **S**erver
+
+        Hey Matey! Welcome to **ya-corps**, a simple CORS proxy server built with Node.js and Express. 
+        This project allows you to bypass CORS restrictions by proxying requests through a server, 
+        making it easier to access APIs and resources that have CORS policies in place.
+
+        ## Features
+        - **CORS Proxy**: Bypass CORS restrictions by proxying requests through the server
+        - **Multiple HTTP Methods**: Support for GET, POST, PUT, DELETE, and other HTTP methods
+        - **Header Forwarding**: Forward custom headers with your requests
+        - **Request Body Support**: Send request bodies for POST/PUT operations
+        - **Error Handling**: Comprehensive error handling and reporting
+        - **Simple API**: Easy-to-use REST API interface
+    version: 1.0.0
+    contact:
+        name: An0n-00
+        url: https://github.com/An0n-00
+    license:
+        name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+        url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 servers:
-  - url: http://localhost:{port}
-    variables:
-      port:
-        default: "3000"
-        description: The port on which the API is running
+    - url: http://localhost:{port}
+      variables:
+          port:
+              default: '3000'
+              description: The port on which the API is running
 
 paths:
-  /:
-    get:
-      summary: API introduction
-      description: Returns a pirate greeting and a description of available endpoints.
-      responses:
-        '200':
-          description: Introduction message and endpoint info
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  success:
-                    type: boolean
-                  endpoints:
-                    type: object
-  /request:
-    post:
-      summary: Send a proxy HTTP request (standard POST)
-      description: |
-        Send an HTTP request to any URL using the specified method, headers, and body. All parameters are supplied in the JSON request body.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - url
-              properties:
-                url:
-                  type: string
+    /:
+        get:
+            summary: API introduction
+            description: Returns a pirate greeting and a description of available endpoints.
+            responses:
+                '200':
+                    description: Introduction message and endpoint info
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    success:
+                                        type: boolean
+                                    endpoints:
+                                        type: object
+    /request:
+        post:
+            summary: Send a proxy HTTP request (standard POST)
+            description: |
+                Send an HTTP request to any URL using the specified method, headers, and body. All parameters are supplied in the JSON request body.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - url
+                            properties:
+                                url:
+                                    type: string
+                                    description: The destination URL.
+                                    example: https://example.com/api/data
+                                method:
+                                    type: string
+                                    description: The HTTP method (GET, POST, PUT, DELETE, PATCH, etc.).
+                                    default: GET
+                                    example: POST
+                                headers:
+                                    type: object
+                                    description: Additional headers to send with the request.
+                                    example: { 'Authorization': 'Bearer token' }
+                                body:
+                                    description: Body payload for POST, PUT, PATCH requests.
+                                    example: { 'foo': 'bar' }
+            responses:
+                '200':
+                    description: Successful proxy response (content type and shape varies)
+                    content:
+                        '*/*':
+                            schema:
+                                type: string
+                '999':
+                    description: Proxy error or invalid input
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                    success:
+                                        type: boolean
+                                    details:
+                                        type: string
+        get:
+            summary: Send a proxy HTTP request (all info in headers)
+            description: |
+                Send an HTTP request to any URL using the specified method, headers, and body, all supplied as HTTP headers. Useful for clients limited to GET requests.
+            parameters:
+                - name: x-proxy-url
+                  in: header
+                  required: true
                   description: The destination URL.
-                  example: https://example.com/api/data
-                method:
-                  type: string
+                  schema:
+                      type: string
+                      example: https://example.com/api/data
+                - name: x-proxy-method
+                  in: header
+                  required: false
                   description: The HTTP method (GET, POST, PUT, DELETE, PATCH, etc.).
-                  default: GET
-                  example: POST
-                headers:
-                  type: object
-                  description: Additional headers to send with the request.
-                  example: { "Authorization": "Bearer token" }
-                body:
+                  schema:
+                      type: string
+                      default: GET
+                      example: POST
+                - name: x-proxy-headers
+                  in: header
+                  required: false
+                  description: Additional headers as a stringified JSON object.
+                  schema:
+                      type: string
+                      example: '{ "Authorization": "Bearer token" }'
+                - name: x-proxy-body
+                  in: header
+                  required: false
                   description: Body payload for POST, PUT, PATCH requests.
-                  example: { "foo": "bar" }
-      responses:
-        '200':
-          description: Successful proxy response (content type and shape varies)
-          content:
-            '*/*':
-              schema:
-                type: string
-        '999':
-          description: Proxy error or invalid input
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  success:
-                    type: boolean
-                  details:
-                    type: string
-    get:
-      summary: Send a proxy HTTP request (all info in headers)
-      description: |
-        Send an HTTP request to any URL using the specified method, headers, and body, all supplied as HTTP headers. Useful for clients limited to GET requests.
-      parameters:
-        - name: x-proxy-url
-          in: header
-          required: true
-          description: The destination URL.
-          schema:
-            type: string
-            example: https://example.com/api/data
-        - name: x-proxy-method
-          in: header
-          required: false
-          description: The HTTP method (GET, POST, PUT, DELETE, PATCH, etc.).
-          schema:
-            type: string
-            default: GET
-            example: POST
-        - name: x-proxy-headers
-          in: header
-          required: false
-          description: Additional headers as a stringified JSON object.
-          schema:
-            type: string
-            example: '{ "Authorization": "Bearer token" }'
-        - name: x-proxy-body
-          in: header
-          required: false
-          description: Body payload for POST, PUT, PATCH requests.
-          schema:
-            type: string
-            example: '{ "foo": "bar" }'
-      responses:
-        '200':
-          description: Successful proxy response (content type and shape varies)
-          content:
-            '*/*':
-              schema:
-                type: string
-        '999':
-          description: Proxy error or invalid input
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  success:
-                    type: boolean
-                  details:
-                    type: string
-  /{any}:
-    get:
-      summary: Catch-all for undefined endpoints
-      description: Returns a 404 error for unknown routes.
-      responses:
-        '404':
-          description: Endpoint not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                  success:
-                    type: boolean
+                  schema:
+                      type: string
+                      example: '{ "foo": "bar" }'
+            responses:
+                '200':
+                    description: Successful proxy response (content type and shape varies)
+                    content:
+                        '*/*':
+                            schema:
+                                type: string
+                '999':
+                    description: Proxy error or invalid input
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                    success:
+                                        type: boolean
+                                    details:
+                                        type: string
+    /{any}:
+        get:
+            summary: Catch-all for undefined endpoints
+            description: Returns a 404 error for unknown routes.
+            responses:
+                '404':
+                    description: Endpoint not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                    success:
+                                        type: boolean
 components:
-  securitySchemes: {}
-  schemas: {}
+    securitySchemes: {}
+    schemas: {}
 
 # Global security is empty since the proxy itself doesn't require authentication
 # Authentication is handled by forwarding headers to the target API
 security: []
 
 externalDocs:
-  description: Find more info on GitHub
-  url: https://github.com/An0n-00/ya-corps
+    description: Find more info on GitHub
+    url: https://github.com/An0n-00/ya-corps

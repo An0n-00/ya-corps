@@ -36,9 +36,7 @@ describe('Ya Corps API', () => {
 
     describe('POST /request with missing url', () => {
         it('should return error for missing url', async () => {
-            const res = await request(app)
-                .post('/request')
-                .send({});
+            const res = await request(app).post('/request').send({});
             expect(res.statusCode).toBe(999);
             expect(res.body).toHaveProperty('error', 'URL is required');
             expect(res.body).toHaveProperty('success', false);
@@ -58,7 +56,9 @@ describe('Ya Corps API', () => {
 
     describe('GET /request with valid url', () => {
         it('should proxy GET request to example.com', async () => {
-            const res = await request(app).get(`/request?url=${encodeURIComponent(TEST_URL)}`);
+            const res = await request(app).get(
+                `/request?url=${encodeURIComponent(TEST_URL)}`
+            );
             expect(res.statusCode).toBe(200);
             expect(res.text).toContain('<title>Example Domain</title>');
         });
@@ -76,8 +76,14 @@ describe('Ya Corps API', () => {
 
     describe('GET /request with custom headers', () => {
         it('should proxy with custom User-Agent header', async () => {
-            const headers = JSON.stringify({ 'User-Agent': 'ya-corps-test/1.0.0' });
-            const res = await request(app).get(`/request?url=${encodeURIComponent(TEST_URL)}&headers=${encodeURIComponent(headers)}`);
+            const headers = JSON.stringify({
+                'User-Agent': 'ya-corps-test/1.0.0',
+            });
+            const res = await request(app).get(
+                `/request?url=${encodeURIComponent(
+                    TEST_URL
+                )}&headers=${encodeURIComponent(headers)}`
+            );
             expect(res.statusCode).toBe(200);
             expect(res.text).toContain('<title>Example Domain</title>');
         });
@@ -91,7 +97,7 @@ describe('Ya Corps API', () => {
                     url: 'https://httpbin.org/post',
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: { test: 'value' }
+                    body: { test: 'value' },
                 });
             expect(res.statusCode).toBe(200);
             let data;
