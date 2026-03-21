@@ -27,7 +27,7 @@
         "cors": "^2.8.5",
         "dotenv": "^17.2.1",
         "eslint": "^9.32.0",
-        "express": "^4.21.2",
+        "express": "^4.22.1",
         "jest": "^30.0.5",
         "node-fetch": "^2.7.0",
         "supertest": "^7.1.4"
